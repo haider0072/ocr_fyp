@@ -144,10 +144,22 @@
                     android:text="Result"
                     android:textAlignment="center"
                     android:textColor="@color/colorWhite"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:gravity="center_horizontal" />
 
                 <TextView
                     android:id="@+id/resultET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="all"
+                    android:background="@null"
+                    android:fontFamily="@font/robotoregular"
+                    android:hint=""
+                    android:padding="5dp"
+                    android:textColor="@color/colorWhite" />
+
+                <TextView
+                    android:id="@+id/storeName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autoLink="all"

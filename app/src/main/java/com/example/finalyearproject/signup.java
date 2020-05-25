@@ -9,23 +9,34 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class signup extends AppCompatActivity {
     private EditText username;
-    private EditText name;
+//    private EditText name;
+
+    FirebaseAuth mFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        final EditText myname = (EditText) findViewById(R.id.myname);
+        final EditText name = (EditText) findViewById(R.id.myname);
         Button signup = (Button) findViewById(R.id.signupButton);
         final EditText password = findViewById(R.id.password);
         username = findViewById(R.id.username);
-        name = findViewById(R.id.myname);
+//        name = findViewById(R.id.myname);
+
+        //init firebase
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference table_user = database.getReference("User");
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,7 +48,8 @@ public class signup extends AppCompatActivity {
 
 
                 String email = username.getText().toString();
-                String firstname = myname.getText().toString();
+                String firstname = name.getText().toString();
+
                 Matcher matcher= Pattern.compile(validemail).matcher(email);
                 Matcher matcher1= Pattern.compile(validname).matcher(firstname);
 
@@ -58,7 +70,7 @@ public class signup extends AppCompatActivity {
 
                 }
                 else if (!matcher1.matches()){
-                    myname.setError("This Field Is Empty");
+                    name.setError("This Field Is Empty");
 
                 }
                 else {
