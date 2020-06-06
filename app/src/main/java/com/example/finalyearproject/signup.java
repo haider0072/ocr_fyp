@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 public class signup extends AppCompatActivity {
 //    private EditText name;
 
-    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
 
     @Override
@@ -42,18 +42,23 @@ public class signup extends AppCompatActivity {
 
         //init firebase
 
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference table_user = database.getReference("User");
+        mAuth = FirebaseAuth.getInstance(); //it will store status if someone is logged in or out signed in or out
+
+        databaseReference= FirebaseDatabase.getInstance().getReference();
 
         //OnClickListener On Button
 
         b_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String emailRegex = "[a-zA-Z0-9_.]+@[a-zA-Z0-9]+.[a-zA-Z]{2,3}[.] {0,1}[a-zA-Z]+";
+                String emailRegex = "^[^@\\s]+@[^@\\s\\.]+\\.[^@\\.\\s]+$";
                 String email = username.getText().toString();
                 String pwd = password.getText().toString();
-                final String uname = name.getText().toString();
+                final String u_name = name.getText().toString();
+
+                Matcher matcher= Pattern.compile(emailRegex).matcher(email);
+
+
                 if(email.isEmpty()){
                     username.setError("Please Enter username");
                     username.requestFocus();
@@ -63,23 +68,23 @@ public class signup extends AppCompatActivity {
                     password.requestFocus();
                 }
 
-                else if(uname.isEmpty()){
+                else if(u_name.isEmpty()){
                     name.setError("Please Enter name");
                     name.requestFocus();
                 }
-                else if(email.isEmpty() && pwd.isEmpty() && uname.isEmpty()){
+                else if(email.isEmpty() && pwd.isEmpty() && u_name.isEmpty()){
                     Toast.makeText(getApplicationContext(),"Fields are empty",Toast.LENGTH_LONG).show();
                 }
 
-                else if(!email.isEmpty() && pwd.isEmpty() && uname.isEmpty() && email.matches(emailRegex)){
-                    mFirebaseAuth.createUserWithEmailAndPassword(email,pwd)
+                else if(matcher.matches()){
+                    mAuth.createUserWithEmailAndPassword(email,pwd)
                             .addOnCompleteListener(signup.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(task.isSuccessful()){
                                         HashMap<String,String> mp = new HashMap<>();
-                                        mp.put("name",uname);
-                                        FirebaseUser userID=mFirebaseAuth.getCurrentUser();
+                                        mp.put("Name",u_name);
+                                        FirebaseUser userID=mAuth.getCurrentUser();
                                         databaseReference.child("Users").child(userID.getUid()).setValue(mp);
                                         startActivity(new Intent(signup.this,login.class));
                                         Toast.makeText(getBaseContext(),"Successfully Registered",Toast.LENGTH_LONG).show();
