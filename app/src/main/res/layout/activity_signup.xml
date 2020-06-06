@@ -145,6 +145,7 @@
                 android:backgroundTint="#737886"
                 android:fontFamily="@font/robotoregular"
                 android:hint="password"
+                android:inputType="textPassword"
                 android:singleLine="true"
                 android:textColor="@color/colorWhite"
                 android:textColorHint="@color/colorWhite"
