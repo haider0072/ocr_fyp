@@ -103,17 +103,4 @@ public class signup extends AppCompatActivity {
         });
     }
 
-//    public boolean isValidPassword(final String password) {
-//
-//        Pattern pattern;
-//        Matcher matcher1;
-//
-//        final String PASSWORD_PATTERN = "^(?=.*\\d).{4,}$";
-//
-//        pattern = Pattern.compile(PASSWORD_PATTERN);
-//        matcher1 = pattern.matcher(password);
-//
-//        return matcher1.matches();
-//
-//    }
 }
