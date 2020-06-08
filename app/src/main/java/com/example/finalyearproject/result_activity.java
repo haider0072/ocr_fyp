@@ -35,10 +35,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class result_activity extends AppCompatActivity {
+    public static final String EXTRA_TEXT = "com.example.finalyearproject.EXTRA_TEXT";
+    public static final String EXTRA_DATE = "com.example.finalyearproject.EXTRA_DATE";
 
     TextView mResultET;
     ImageView mPreviewIv;
     TextView storeName;
+    TextView dateName;
 
     private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 400;
@@ -54,14 +57,16 @@ public class result_activity extends AppCompatActivity {
     Button camera, gallery;
     private String imtiazName = "(Imtiaz|imtiaz|mtiaz|tiaz|mtia|IMTIAZ)";
     private String chaseName = "(CHASE|HASE|ASE|Chase|chase|hase|ase)";
-    private String sparName;
+    private String sparName = "(SPAR|PAR|AR|spar|par|ar)";
     private String naheedName = "(NAHEED|AHEED|HEED|AHEE|Naheed|naheed|aheed|ahee)";
     private String needzName = "(NEEDZ|EEDZ|needz|Needz|eedz)";
     private String shaazName = "(SHAAZ|shaaz|HAAZ|haaz)";
     private String gulshanName = "(GULSHAN|gulshan|ULSHAN|ulshan)";
     private String blessName = "(BLESS|bless|LESS|less)";
     private String arabiaName = "(ARABIA|arabia|Arabia|RABIA|rabia)";
-    private String magnetName;
+    private String magnetName = "(MAGNET|AGNET|GNET|NET|magnet|agnet|net)";
+    private String aljadeedName = "(AL JADEED|AL|JADEED)";
+    private String ptrn = "(\\d{2}\\s-[a-zA-Z]{3}-\\d{4})|(\\d{2}-[a-zA-Z]{3}-\\d{4})|[a-zA-Z]{3}\\s\\d{2},\\s\\d{4}|\\d{2}\\s[a-zA-Z]{3}\\s\\d{4}";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +78,7 @@ public class result_activity extends AppCompatActivity {
         camera = findViewById(R.id.camera);
         gallery = findViewById(R.id.gallery);
         storeName = findViewById(R.id.storeName);
+        dateName = findViewById(R.id.dateText);
 
         //Camera Permission
 
@@ -279,30 +285,22 @@ public class result_activity extends AppCompatActivity {
 //
 //    }
 
-//    public class Regex {
-//        @SuppressLint("SetTextI18n")
-//        public void iName(String str, String ptrn){
-//            String inputCharSeq = str;
-//            Pattern pattern = Pattern.compile(ptrn, Pattern.MULTILINE);
-//            Matcher matcher = pattern.matcher(inputCharSeq);
-//            if(matcher.find())
-//            {
-//                storeName.setText("Imatiaz Super Market");
-//            }
-////                System.out.println(getOneLineSubString(str, matcher.end()+1));
-//        }
-//        @SuppressLint("SetTextI18n")
-//        public void cName(String str, String ptrn){
-//            String inputCharSeq = str;
-//            Pattern pattern = Pattern.compile(ptrn, Pattern.MULTILINE);
-//            Matcher matcher = pattern.matcher(inputCharSeq);
-//            if(matcher.find())
-//            {
-//                storeName.setText("Chase Super Market");
-//            }
-////                System.out.println(getOneLineSubString(str, matcher.end()+1));
-//        }
-//    }
+    public class Regex {
+        @SuppressLint("SetTextI18n")
+        public void iName(String str, String ptrn){
+            String inputCharSeq = str;
+            Pattern pattern = Pattern.compile(ptrn, Pattern.MULTILINE);
+            Matcher matcher = pattern.matcher(inputCharSeq);
+            if(matcher.find())
+            {
+                dateName.setText(matcher.group());
+            }
+            else {
+                dateName.setText("Date not found");
+            }
+//                System.out.println(getOneLineSubString(str, matcher.end()+1));
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -364,21 +362,84 @@ public class result_activity extends AppCompatActivity {
 
                     mResultET.setText(sb.toString());
 
+                    String dateText = mResultET.getText().toString();
+
+                    Regex r = new Regex();
+//
+//                    String dateText = "Tue, 16-Jul-2019";
+
                     String arr[] = sb.toString().split("\n");
                     String firstWord = arr[0];
                     Matcher imtiazNp = Pattern.compile(imtiazName).matcher(firstWord);
                     Matcher chaseNp = Pattern.compile(chaseName).matcher(firstWord);
                     Matcher naheedNp = Pattern.compile(naheedName).matcher(firstWord);
+                    Matcher needzNp = Pattern.compile(needzName).matcher(firstWord);
+                    Matcher shaazNp = Pattern.compile(shaazName).matcher(firstWord);
+                    Matcher gulshanNp = Pattern.compile(gulshanName).matcher(firstWord);
+                    Matcher blessNp = Pattern.compile(blessName).matcher(firstWord);
+                    Matcher arabiaNp = Pattern.compile(arabiaName).matcher(firstWord);
+                    Matcher sparNp = Pattern.compile(sparName).matcher(firstWord);
+                    Matcher magnetNp = Pattern.compile(magnetName).matcher(firstWord);
+                    Matcher aljadeedNp = Pattern.compile(aljadeedName).matcher(firstWord);
+//                    Matcher dateNP = Pattern.compile(ptrn).matcher(dateText);
 
                     if (chaseNp.find()) {
                         storeName.setText("Chase Super Market");
+                        r.iName(dateText,ptrn);
                     }
                     else if(imtiazNp.find()){
                         storeName.setText("Imtiaz Super Market");
+                        r.iName(dateText,ptrn);
                     }
                     else if(naheedNp.find()){
                         storeName.setText("Naheed Super Market");
+                        r.iName(dateText,ptrn);
                     }
+                    else if(needzNp.find()){
+                        storeName.setText("Needz Super Market");
+                        r.iName(dateText,ptrn);
+                    }
+                    else if(shaazNp.find()){
+                        storeName.setText("Shaaz Super Market");
+                        r.iName(dateText,ptrn);
+                    }
+                    else if(gulshanNp.find()){
+                        storeName.setText("Gulshan Super Market");
+                        r.iName(dateText,ptrn);
+                    }
+                    else if(blessNp.find()){
+                        storeName.setText("Bless Super Market");
+                        r.iName(dateText,ptrn);
+                    }
+                    else if(arabiaNp.find()){
+                        storeName.setText("Arabia Super Market");
+                        r.iName(dateText,ptrn);
+                    }
+                    else if(sparNp.find()){
+                        storeName.setText("Spar Super Market");
+                        r.iName(dateText,ptrn);
+                    }
+                    else if(magnetNp.find()){
+                        storeName.setText("Magnet Super Market");
+                        r.iName(dateText,ptrn);
+                    }
+                    else if(aljadeedNp.find()){
+                        storeName.setText("Al Jadeed Super Market");
+                        r.iName(dateText,ptrn);
+                    }
+                    else {
+                        Toast.makeText(this,"Retry ",Toast.LENGTH_LONG).show();
+                        storeName.setText("Nothing Found");
+                        dateName.setText("Nothing Found");
+                    }
+
+                    String resultR = storeName.getText().toString();
+                    String resultD = dateName.getText().toString();
+
+                    Intent intent = new Intent(this,analyzed_data.class);
+                    intent.putExtra(EXTRA_TEXT, resultR);
+                    intent.putExtra(EXTRA_DATE,resultD);
+                    startActivity(intent);
 
 //                    String arr[] = sb.toString().split("\n");
 //                    String firstWord = arr[0];
