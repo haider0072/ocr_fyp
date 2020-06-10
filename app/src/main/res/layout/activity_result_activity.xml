@@ -178,6 +178,17 @@
                     android:padding="5dp"
                     android:textColor="@color/colorWhite" />
 
+                <TextView
+                    android:id="@+id/amountText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="all"
+                    android:background="@null"
+                    android:fontFamily="@font/robotoregular"
+                    android:hint=""
+                    android:padding="5dp"
+                    android:textColor="@color/colorWhite" />
+
 
             </LinearLayout>
 

@@ -28,8 +28,10 @@ public class analyzed_data extends AppCompatActivity {
         Intent intent = getIntent();
         String text = intent.getStringExtra(result_activity.EXTRA_TEXT);
         String textD = intent.getStringExtra(result_activity.EXTRA_DATE);
+        String textA = intent.getStringExtra(result_activity.EXTRA_AMOUNT);
         sName.setText(text);
         sDate.setText(textD);
+        sPrice.setText(textA);
     }
 
 

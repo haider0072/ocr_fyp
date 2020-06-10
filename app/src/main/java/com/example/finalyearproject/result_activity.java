@@ -37,11 +37,13 @@ import java.util.regex.Pattern;
 public class result_activity extends AppCompatActivity {
     public static final String EXTRA_TEXT = "com.example.finalyearproject.EXTRA_TEXT";
     public static final String EXTRA_DATE = "com.example.finalyearproject.EXTRA_DATE";
+    public static final String EXTRA_AMOUNT = "com.example.finalyearproject.EXTRA_AMOUNT";
 
     TextView mResultET;
     ImageView mPreviewIv;
     TextView storeName;
     TextView dateName;
+    TextView amountName;
 
     private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 400;
@@ -62,11 +64,11 @@ public class result_activity extends AppCompatActivity {
     private String needzName = "(NEEDZ|EEDZ|needz|Needz|eedz)";
     private String shaazName = "(SHAAZ|shaaz|HAAZ|haaz)";
     private String gulshanName = "(GULSHAN|gulshan|ULSHAN|ulshan)";
-    private String blessName = "(BLESS|bless|LESS|less)";
+    private String blessName = "(BLESS|bless|LESS|less|B less)";
     private String arabiaName = "(ARABIA|arabia|Arabia|RABIA|rabia)";
     private String magnetName = "(MAGNET|AGNET|GNET|NET|magnet|agnet|net)";
     private String aljadeedName = "(AL JADEED|AL|JADEED)";
-    private String ptrn = "(\\d{2}\\s-[a-zA-Z]{3}-\\d{4})|(\\d{2}-[a-zA-Z]{3}-\\d{4})|[a-zA-Z]{3}\\s\\d{2},\\s\\d{4}|\\d{2}\\s[a-zA-Z]{3}\\s\\d{4}";
+    private String ptrn = "(\\d{2}\\s-[a-zA-Z]{1,10}-\\d{4})|(\\d{2}-[a-zA-Z]{1,10}-\\d{4})|[a-zA-Z]{1,10}\\s\\d{2},\\s\\d{4}|\\d{2}\\s[a-zA-Z]{1,10}\\s\\d{4}|\\d{2}\\s[a-zA-Z]{1,10},\\s\\d{4}|\\d{2}[- /.]\\d{2}[- /.]\\d{4}";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,7 @@ public class result_activity extends AppCompatActivity {
         gallery = findViewById(R.id.gallery);
         storeName = findViewById(R.id.storeName);
         dateName = findViewById(R.id.dateText);
+        amountName = findViewById(R.id.amountText);
 
         //Camera Permission
 
@@ -384,18 +387,43 @@ public class result_activity extends AppCompatActivity {
 //                    Matcher dateNP = Pattern.compile(ptrn).matcher(dateText);
 
                     if (chaseNp.find()) {
+                        for (int i = 0; i < arr.length; i++) {
+                            if (arr[i].equals("Net Value:")||arr[i].equals("Net Value")) {
+                                amountName.setText(arr[i + 4]);
+                                break;
+                            }
+                        }
                         storeName.setText("Chase Super Market");
                         r.iName(dateText,ptrn);
                     }
                     else if(imtiazNp.find()){
+                        for (int i = 0; i < arr.length; i++) {
+                            if (arr[i].equals("Invoice Value")||arr[i].equals("InvoTce Value")||arr[i].equals("nvoice Value")
+                                    ||arr[i].equals("InvOTCe Vallue")) {
+                                amountName.setText(arr[i + 1]);
+                                break;
+                            }
+                            }
                         storeName.setText("Imtiaz Super Market");
                         r.iName(dateText,ptrn);
                     }
-                    else if(naheedNp.find()){
-                        storeName.setText("Naheed Super Market");
-                        r.iName(dateText,ptrn);
+                    else if(naheedNp.find()) {
+                        for (int i = 0; i < arr.length; i++) {
+                            if (arr[i].equals("TENDER AMOUNT")) {
+                                amountName.setText(arr[i + 1]);
+                                break;
+                            }
+                        }
+                            storeName.setText("Naheed Super Market");
+                            r.iName(dateText, ptrn);
                     }
                     else if(needzNp.find()){
+                        for(int i=0;i<arr.length;i++){
+                            if (arr[i].equals("Net Amount")){
+                                amountName.setText(arr[i+4]);
+                                break;
+                            }
+                        }
                         storeName.setText("Needz Super Market");
                         r.iName(dateText,ptrn);
                     }
@@ -404,10 +432,22 @@ public class result_activity extends AppCompatActivity {
                         r.iName(dateText,ptrn);
                     }
                     else if(gulshanNp.find()){
+                        for(int i=0;i<arr.length;i++){
+                            if (arr[i].equals("Net Amount")){
+                                amountName.setText(arr[i+4]);
+                                break;
+                            }
+                        }
                         storeName.setText("Gulshan Super Market");
                         r.iName(dateText,ptrn);
                     }
                     else if(blessNp.find()){
+                        for(int i=0;i<arr.length;i++){
+                            if (arr[i].equals("CASH")||arr[i].equals("Grand Total")){
+                             amountName.setText(arr[i+1]);
+                             break;
+                            }
+                        }
                         storeName.setText("Bless Super Market");
                         r.iName(dateText,ptrn);
                     }
@@ -424,6 +464,12 @@ public class result_activity extends AppCompatActivity {
                         r.iName(dateText,ptrn);
                     }
                     else if(aljadeedNp.find()){
+                        for (int i = 0; i < arr.length; i++) {
+                            if (arr[i].equals("Netvalue:")) {
+                                amountName.setText(arr[i - 4]);
+                                break;
+                            }
+                        }
                         storeName.setText("Al Jadeed Super Market");
                         r.iName(dateText,ptrn);
                     }
@@ -435,10 +481,12 @@ public class result_activity extends AppCompatActivity {
 
                     String resultR = storeName.getText().toString();
                     String resultD = dateName.getText().toString();
+                    String resultA = amountName.getText().toString();
 
                     Intent intent = new Intent(this,analyzed_data.class);
                     intent.putExtra(EXTRA_TEXT, resultR);
                     intent.putExtra(EXTRA_DATE,resultD);
+                    intent.putExtra(EXTRA_AMOUNT,resultA);
                     startActivity(intent);
 
 //                    String arr[] = sb.toString().split("\n");
