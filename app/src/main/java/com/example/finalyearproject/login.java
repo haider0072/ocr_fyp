@@ -33,6 +33,7 @@ public class login extends AppCompatActivity {
 
     EditText userL,pwdL;
     Button signIn;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,17 @@ public class login extends AppCompatActivity {
             }
 
         });
+
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+//         Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if(currentUser!=null) {
+            startActivity(new Intent(getApplicationContext(), result_activity.class));
+            finish();
+        }
 
     }
 

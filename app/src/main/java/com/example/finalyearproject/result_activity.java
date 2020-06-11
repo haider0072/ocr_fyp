@@ -11,6 +11,8 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -44,6 +46,10 @@ public class result_activity extends AppCompatActivity {
     TextView storeName;
     TextView dateName;
     TextView amountName;
+    Button btnDisplay;
+
+    MyHelper myHelper;
+    SQLiteDatabase sqLiteDatabase;
 
     private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 400;
@@ -56,7 +62,8 @@ public class result_activity extends AppCompatActivity {
 
     Uri image_uri;
 
-    Button camera, gallery;
+    Button camera, gallery,chart;
+
     private String imtiazName = "(Imtiaz|imtiaz|mtiaz|tiaz|mtia|IMTIAZ)";
     private String chaseName = "(CHASE|HASE|ASE|Chase|chase|hase|ase)";
     private String sparName = "(SPAR|PAR|AR|spar|par|ar)";
@@ -69,6 +76,7 @@ public class result_activity extends AppCompatActivity {
     private String magnetName = "(MAGNET|AGNET|GNET|NET|magnet|agnet|net)";
     private String aljadeedName = "(AL JADEED|AL|JADEED)";
     private String ptrn = "(\\d{2}\\s-[a-zA-Z]{1,10}-\\d{4})|(\\d{2}-[a-zA-Z]{1,10}-\\d{4})|[a-zA-Z]{1,10}\\s\\d{2},\\s\\d{4}|\\d{2}\\s[a-zA-Z]{1,10}\\s\\d{4}|\\d{2}\\s[a-zA-Z]{1,10},\\s\\d{4}|\\d{2}[- /.]\\d{2}[- /.]\\d{4}";
+    private String number = " \\d+";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +90,27 @@ public class result_activity extends AppCompatActivity {
         storeName = findViewById(R.id.storeName);
         dateName = findViewById(R.id.dateText);
         amountName = findViewById(R.id.amountText);
+        chart = findViewById(R.id.chart);
+        btnDisplay = findViewById(R.id.displayAll);
+
+        // databases
+        myHelper = new MyHelper(this);
+        sqLiteDatabase = myHelper.getWritableDatabase();
+
+        chart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(v.getContext(),graph.class);
+                startActivityForResult(myIntent,0);
+            }
+        });
+
+        btnDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayAllRecords();
+            }
+        });
 
         //Camera Permission
 
@@ -127,6 +156,25 @@ public class result_activity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void displayAllRecords(){
+        String dbString = "", dataString = "";
+
+        Cursor c = myHelper.getAllData();
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            // null could happen if we used our empty constructor
+            if (c.getString(c.getColumnIndex("storeName")) != null) {
+                dbString += c.getString(c.getColumnIndex("storeName")) + " "+
+                        //c.getString(c.getColumnIndex("dateName")) + " "+
+                        c.getString(c.getColumnIndex("storePrice"));
+                dataString += dbString+"/n";
+                dbString = "";
+            }
+            c.moveToNext();
+        }
+        Toast.makeText(this,dataString,Toast.LENGTH_LONG).show();
     }
 
     private void pickGallery()
@@ -444,8 +492,8 @@ public class result_activity extends AppCompatActivity {
                     else if(blessNp.find()){
                         for(int i=0;i<arr.length;i++){
                             if (arr[i].equals("CASH")||arr[i].equals("Grand Total")){
-                             amountName.setText(arr[i+1]);
-                             break;
+                                amountName.setText(arr[i+1]);
+                                break;
                             }
                         }
                         storeName.setText("Bless Super Market");
@@ -456,6 +504,12 @@ public class result_activity extends AppCompatActivity {
                         r.iName(dateText,ptrn);
                     }
                     else if(sparNp.find()){
+                        for (int i = 0; i < arr.length; i++) {
+                            if (arr[i].equals("Net Value")) {
+                                amountName.setText(arr[i+1]);
+                                break;
+                            }
+                        }
                         storeName.setText("Spar Super Market");
                         r.iName(dateText,ptrn);
                     }

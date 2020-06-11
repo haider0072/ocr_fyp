@@ -41,6 +41,20 @@
                 />
 
             <Button
+                android:id="@+id/displayAll"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:background="#000"
+                android:fontFamily="@font/robotoregular"
+                android:text="Confirm"
+                android:textColor="@color/colorWhite"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.97"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
                 android:id="@+id/gallery"
                 android:layout_width="33.75dp"
                 android:layout_height="27dp"
@@ -60,6 +74,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.14"
                 app:layout_constraintStart_toEndOf="@+id/gallery"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintVertical_bias="0.26999998" />
+
+            <Button
+                android:id="@+id/chart"
+                android:layout_width="33.75dp"
+                android:layout_height="35dp"
+                android:background="@drawable/ic_baseline_bar_chart_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.14"
+                app:layout_constraintStart_toEndOf="@+id/camera"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
                 app:layout_constraintVertical_bias="0.26999998" />
 
