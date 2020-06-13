@@ -43,18 +43,18 @@ public class graph extends AppCompatActivity {
         pieChart.setTransparentCircleRadius(61f);
 
         //db fucntion for getting the records from database
-        Cursor c = myHelper.getNameBaseData();
+        Cursor c = myHelper.getMonthBaseData();
         //Cursor c = myHelper.getAllData();
         //chart start
         ArrayList<PieEntry> yvalues = new ArrayList<>();
         c.moveToFirst();
         while (!c.isAfterLast()) {
             // null could happen if we used our empty constructor
-            if (c.getString(c.getColumnIndex("storeName")) != null) {
-                String stname = c.getString(c.getColumnIndex("storeName"));
-                //String stdate = c.getString(c.getColumnIndex("dateName"));
+            if (c.getString(c.getColumnIndex("storeDateMonth")) != null) {
+//                String stname = c.getString(c.getColumnIndex("storeName"));
+                String stdate = c.getString(c.getColumnIndex("storeDateMonth"));
                 String stamount = c.getString(1);
-                yvalues.add(new PieEntry(Float.parseFloat(stamount),stname));
+                yvalues.add(new PieEntry(Float.parseFloat(stamount),stdate));
             }
             c.moveToNext();
         }

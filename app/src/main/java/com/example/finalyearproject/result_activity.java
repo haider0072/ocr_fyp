@@ -33,6 +33,8 @@ import com.google.android.gms.vision.text.TextRecognizer;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,6 +42,9 @@ public class result_activity extends AppCompatActivity {
     public static final String EXTRA_TEXT = "com.example.finalyearproject.EXTRA_TEXT";
     public static final String EXTRA_DATE = "com.example.finalyearproject.EXTRA_DATE";
     public static final String EXTRA_AMOUNT = "com.example.finalyearproject.EXTRA_AMOUNT";
+//    public static final String EXTRA_DAY = "com.example.finalyearproject.EXTRA_DAY";
+//    public static final String EXTRA_MONTH = "com.example.finalyearproject.EXTRA_MONTH";
+//    public static final String EXTRA_YEAR = "com.example.finalyearproject.EXTRA_YEAR";
 
     TextView mResultET;
     ImageView mPreviewIv;
@@ -47,6 +52,8 @@ public class result_activity extends AppCompatActivity {
     TextView dateName;
     TextView amountName;
     Button btnDisplay;
+
+//    String day,month,year;
 
     MyHelper myHelper;
     SQLiteDatabase sqLiteDatabase;
@@ -167,7 +174,9 @@ public class result_activity extends AppCompatActivity {
             // null could happen if we used our empty constructor
             if (c.getString(c.getColumnIndex("storeName")) != null) {
                 dbString += c.getString(c.getColumnIndex("storeName")) + " "+
-                        //c.getString(c.getColumnIndex("dateName")) + " "+
+                        c.getString(c.getColumnIndex("storeDateDay")) + " "+
+                        c.getString(c.getColumnIndex("storeDateMonth")) + " "+
+                        c.getString(c.getColumnIndex("storeDateYear")) + " "+
                         c.getString(c.getColumnIndex("storePrice"));
                 dataString += dbString+"/n";
                 dbString = "";
@@ -441,7 +450,7 @@ public class result_activity extends AppCompatActivity {
                                 break;
                             }
                         }
-                        storeName.setText("Chase Super Market");
+                        storeName.setText("Chase");
                         r.iName(dateText,ptrn);
                     }
                     else if(imtiazNp.find()){
@@ -452,7 +461,7 @@ public class result_activity extends AppCompatActivity {
                                 break;
                             }
                             }
-                        storeName.setText("Imtiaz Super Market");
+                        storeName.setText("Imtiaz");
                         r.iName(dateText,ptrn);
                     }
                     else if(naheedNp.find()) {
@@ -462,7 +471,7 @@ public class result_activity extends AppCompatActivity {
                                 break;
                             }
                         }
-                            storeName.setText("Naheed Super Market");
+                            storeName.setText("Naheed");
                             r.iName(dateText, ptrn);
                     }
                     else if(needzNp.find()){
@@ -472,11 +481,11 @@ public class result_activity extends AppCompatActivity {
                                 break;
                             }
                         }
-                        storeName.setText("Needz Super Market");
+                        storeName.setText("Needz");
                         r.iName(dateText,ptrn);
                     }
                     else if(shaazNp.find()){
-                        storeName.setText("Shaaz Super Market");
+                        storeName.setText("Shaaz");
                         r.iName(dateText,ptrn);
                     }
                     else if(gulshanNp.find()){
@@ -486,7 +495,7 @@ public class result_activity extends AppCompatActivity {
                                 break;
                             }
                         }
-                        storeName.setText("Gulshan Super Market");
+                        storeName.setText("Gulshan");
                         r.iName(dateText,ptrn);
                     }
                     else if(blessNp.find()){
@@ -496,11 +505,11 @@ public class result_activity extends AppCompatActivity {
                                 break;
                             }
                         }
-                        storeName.setText("Bless Super Market");
+                        storeName.setText("Bless");
                         r.iName(dateText,ptrn);
                     }
                     else if(arabiaNp.find()){
-                        storeName.setText("Arabia Super Market");
+                        storeName.setText("Arabia");
                         r.iName(dateText,ptrn);
                     }
                     else if(sparNp.find()){
@@ -510,11 +519,11 @@ public class result_activity extends AppCompatActivity {
                                 break;
                             }
                         }
-                        storeName.setText("Spar Super Market");
+                        storeName.setText("Spar");
                         r.iName(dateText,ptrn);
                     }
                     else if(magnetNp.find()){
-                        storeName.setText("Magnet Super Market");
+                        storeName.setText("Magnet");
                         r.iName(dateText,ptrn);
                     }
                     else if(aljadeedNp.find()){
@@ -524,7 +533,7 @@ public class result_activity extends AppCompatActivity {
                                 break;
                             }
                         }
-                        storeName.setText("Al Jadeed Super Market");
+                        storeName.setText("Al Jadeed");
                         r.iName(dateText,ptrn);
                     }
                     else {
@@ -533,14 +542,22 @@ public class result_activity extends AppCompatActivity {
                         dateName.setText("Nothing Found");
                     }
 
+
+
+
                     String resultR = storeName.getText().toString();
                     String resultD = dateName.getText().toString();
                     String resultA = amountName.getText().toString();
+
+
 
                     Intent intent = new Intent(this,analyzed_data.class);
                     intent.putExtra(EXTRA_TEXT, resultR);
                     intent.putExtra(EXTRA_DATE,resultD);
                     intent.putExtra(EXTRA_AMOUNT,resultA);
+//                    intent.putExtra(EXTRA_DAY,dateDay);
+//                    intent.putExtra(EXTRA_MONTH,dateMonth);
+//                    intent.putExtra(EXTRA_YEAR,dateYear);
                     startActivity(intent);
 
 //                    String arr[] = sb.toString().split("\n");
