@@ -52,6 +52,7 @@ public class result_activity extends AppCompatActivity {
     TextView dateName;
     TextView amountName;
     Button btnDisplay;
+    Button myProfile;
 
 //    String day,month,year;
 
@@ -99,6 +100,16 @@ public class result_activity extends AppCompatActivity {
         amountName = findViewById(R.id.amountText);
         chart = findViewById(R.id.chart);
         btnDisplay = findViewById(R.id.displayAll);
+        myProfile = findViewById(R.id.myProfile);
+
+        myProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(v.getContext(),profile.class);
+                startActivityForResult(myIntent,0);
+
+            }
+        });
 
         // databases
         myHelper = new MyHelper(this);

@@ -9,15 +9,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".graph"></activity>
+        <activity android:name=".profile"></activity>
+        <activity android:name=".graph" />
         <activity
             android:name=".analyzed_data"
-            android:parentActivityName=".result_activity"></activity>
+            android:parentActivityName=".result_activity" />
         <activity
             android:name=".login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".result_activity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".signup"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".splash_screen"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,19 +35,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".signup"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainActivity" />
-        <activity
-            android:name=".splash_screen"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/AppTheme" />
     </application>
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>

@@ -3,6 +3,7 @@ package com.example.finalyearproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PatternMatcher;
@@ -30,10 +31,12 @@ import java.util.regex.Pattern;
 public class login extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference myref;
-
+    Context context;
+    boolean flag=false;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener FirebaseAuthLstener;
     EditText userL,pwdL;
     Button signIn;
-    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class login extends AppCompatActivity {
 
         database=FirebaseDatabase.getInstance();
         myref=database.getReference("Admins");
+
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,18 +89,21 @@ public class login extends AppCompatActivity {
 
         });
 
-    }
-    @Override
-    public void onStart() {
-        super.onStart();
-//         Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if(currentUser!=null) {
-            startActivity(new Intent(getApplicationContext(), result_activity.class));
-            finish();
-        }
 
     }
+
+
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+////         Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+//        if(currentUser!=null) {
+//            startActivity(new Intent(getApplicationContext(), result_activity.class));
+//            finish();
+//        }
+//
+//    }
 
 
 //    protected void onStart() {
