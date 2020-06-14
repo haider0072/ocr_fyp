@@ -23,7 +23,7 @@ public class LoginClass {
         this.context=c;
     }
 
-    public void LoginAsUser(String email, String password){
+    public void LoginAsUser(final String email, String password){
         mAuth=FirebaseAuth.getInstance(); //it will store status if someone is logged in or out signed in or out
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
@@ -33,6 +33,8 @@ public class LoginClass {
 //                            Intent intent=new Intent(context, MainActivity.class);
 //                            startActivity(intent);
                             Toast.makeText(context,"Successfully Login ",Toast.LENGTH_LONG).show();
+                            // here we need to save the shared prefferences
+                            new SharedPref(context).userLogin(email);
                             Intent i=new Intent(context,result_activity.class);
                             context.startActivity(i);
                             ((Activity) context).finish();

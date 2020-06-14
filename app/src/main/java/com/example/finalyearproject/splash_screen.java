@@ -18,7 +18,14 @@ public class splash_screen extends AppCompatActivity {
                 try
                 {
                     sleep(2000);
-                    Intent main_activityIntent = new Intent(getApplicationContext(), login.class);
+                    SharedPref sharedPref = new SharedPref(getApplicationContext());
+                    Intent main_activityIntent;
+                    if(sharedPref.isUserLogin()){
+                        main_activityIntent = new Intent(getApplicationContext(), result_activity.class);
+                    }
+                    else{
+                        main_activityIntent = new Intent(getApplicationContext(), login.class);
+                    }
                     startActivity(main_activityIntent);
                     finish();
                 } catch (InterruptedException e) {

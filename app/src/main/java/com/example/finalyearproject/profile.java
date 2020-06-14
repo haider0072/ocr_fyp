@@ -32,10 +32,6 @@ public class profile extends AppCompatActivity {
 
         name = findViewById(R.id.profile_fname);
         email= findViewById(R.id.profile_email);
-        phone = findViewById(R.id.profile_phone);
-        username = findViewById(R.id.profile_username);
-        location = findViewById(R.id.profile_location);
-        role = findViewById(R.id.profile_role);
 
         // Write a message to the database
         //getting firebase uthentication instance
@@ -80,6 +76,7 @@ public class profile extends AppCompatActivity {
 
     public void profile_Singout(View view) {
         FirebaseAuth.getInstance().signOut();
+        new SharedPref(this).userLogOut();
         Intent loginActivity = new Intent(getApplicationContext(), login.class);
         startActivity(loginActivity);
         finish();
