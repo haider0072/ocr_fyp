@@ -108,7 +108,7 @@ public class analyzed_data extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (priceName.matches("\\d*\\.?\\d*$") && storeDateDay !=null && storeDateMonth!=null && storeDateYear!=null) {
+                if (priceName.matches("\\d*\\.?\\d*$") && storeDateDay !=null && storeDateMonth!=null && storeDateYear!=null && storeName!=null) {
                     myHelper.insertData(storeName,storeDateDay,storeDateMonth,storeDateYear,priceName);
                     showMessage("Information inserted success!");
                     Intent myIntent = new Intent(v.getContext(),result_activity.class);
