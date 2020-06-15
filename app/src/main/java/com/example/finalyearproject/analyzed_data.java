@@ -26,11 +26,12 @@ import java.util.regex.Pattern;
 public class analyzed_data extends AppCompatActivity {
 
     TextView sName,sDate,sPrice,sDay,sMonth,sYear;
-    Button confirm;
+    Button confirm,cancel;
     String day,month,year;
 
     MyHelper myHelper;
     SQLiteDatabase sqLiteDatabase;
+    private String number = " \\d*\\.?\\d*$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class analyzed_data extends AppCompatActivity {
         sMonth = findViewById(R.id.storeMonth);
         sYear = findViewById(R.id.storeYear);
         confirm = findViewById(R.id.confirm);
+        cancel = findViewById(R.id.cancel);
 
         myHelper = new MyHelper(this);
         sqLiteDatabase = myHelper.getWritableDatabase();
@@ -52,9 +54,6 @@ public class analyzed_data extends AppCompatActivity {
         String text = intent.getStringExtra(result_activity.EXTRA_TEXT);
         String textD = intent.getStringExtra(result_activity.EXTRA_DATE);
         String textA = intent.getStringExtra(result_activity.EXTRA_AMOUNT);
-//        String textDateDay = intent.getStringExtra(result_activity.EXTRA_DAY);
-//        String textDateMonth = intent.getStringExtra(result_activity.EXTRA_MONTH);
-//        String textDateYear = intent.getStringExtra(result_activity.EXTRA_YEAR);
 
         sDate.setText(textD);
         sName.setText(text);
@@ -102,23 +101,32 @@ public class analyzed_data extends AppCompatActivity {
         sMonth.setText(month);
         sYear.setText(year);
 
+        final Matcher priceMatch = Pattern.compile(number).matcher(priceName);
 
-//        sDay.setText(textDateDay);
-//        sMonth.setText(textDateMonth);
-//        sYear.setText(textDateYear);
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(myHelper.insertData(storeName,storeDateDay,storeDateMonth,storeDateYear,priceName)){
-                    showMessage("Information inserted success!" +day+" "+month+" "+year);
+                if (priceName.matches("\\d*\\.?\\d*$") && storeDateDay !=null && storeDateMonth!=null && storeDateYear!=null) {
+                    myHelper.insertData(storeName,storeDateDay,storeDateMonth,storeDateYear,priceName);
+                    showMessage("Information inserted success!");
+                    Intent myIntent = new Intent(v.getContext(),result_activity.class);
+                    startActivityForResult(myIntent,0);
+
                 }
+
                 else{
-                    showMessage("Information not inserted");
+                    showMessage("Information not inserted.. invalid data");
                 }
-//                String storen = myHelper.ChkExistingUser();
-//                showMessage("Data from DB"+storen);
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(v.getContext(),result_activity.class);
+                startActivityForResult(myIntent,0);
             }
         });
 
@@ -129,23 +137,6 @@ public class analyzed_data extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
 
-//                for (int i=0;i<bless.length;i++) {
-//                bless[0].equals(storeName)
-//                        newDate = new Date(dateName);
-//                        String dateParts[] = newDate.toString().split(" ");
-//                        day = dateParts[2];
-//                        month = dateParts[1];
-//                        year = dateParts[5];
 
-    //        SimpleDateFormat secondsimpleDateFormat = new SimpleDateFormat("MM/DD/YY|DD/MM/YY|YYYY, Mon DD|DD Mon, YYYY|DD-MM-YYYY");
-//        Date dateTwo = null;
-//        try{
-//            dateTwo = secondsimpleDateFormat.parse(textD);
-//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yyyy");
-//            String finalSecondDate = simpleDateFormat.format(dateTwo);
-//            sDate.setText(finalSecondDate);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
 
 }

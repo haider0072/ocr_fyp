@@ -23,7 +23,7 @@ public class profile extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference databaseReference_user;
 
-    TextView name, email, phone, username, location, role;
+    TextView name, email;
     String userID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class profile extends AppCompatActivity {
         email= findViewById(R.id.profile_email);
 
         // Write a message to the database
-        //getting firebase uthentication instance
+        //getting firebase authentication instance
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         userID = currentUser.getUid();
@@ -50,13 +50,8 @@ public class profile extends AppCompatActivity {
 
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-//                String value = dataSnapshot.getValue(String.class);
-////                Log.d(TAG, "Value is: " + value);
-//                showMessage(value);
                 data[0]= dataSnapshot.child(userID).child("Name").getValue(String.class);
                 data[1]= FirebaseAuth.getInstance().getCurrentUser().getEmail();
-
-
 
                     name.setText(data[0]);
                     email.setText(data[1]);
@@ -67,8 +62,6 @@ public class profile extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-//                Log.w(TAG, "Failed to read value.", error.toException());
-
                 showMessage(error.toException().toString());
             }
         });

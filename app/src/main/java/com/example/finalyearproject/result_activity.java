@@ -84,7 +84,7 @@ public class result_activity extends AppCompatActivity {
     private String magnetName = "(MAGNET|AGNET|GNET|NET|magnet|agnet|net)";
     private String aljadeedName = "(AL JADEED|AL|JADEED)";
     private String ptrn = "(\\d{2}\\s-[a-zA-Z]{1,10}-\\d{4})|(\\d{2}-[a-zA-Z]{1,10}-\\d{4})|[a-zA-Z]{1,10}\\s\\d{2},\\s\\d{4}|\\d{2}\\s[a-zA-Z]{1,10}\\s\\d{4}|\\d{2}\\s[a-zA-Z]{1,10},\\s\\d{4}|\\d{2}[- /.]\\d{2}[- /.]\\d{4}";
-    private String number = " \\d+";
+    private String number = "\\d*\\.?\\d*$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +102,8 @@ public class result_activity extends AppCompatActivity {
         btnDisplay = findViewById(R.id.displayAll);
         myProfile = findViewById(R.id.myProfile);
 
+        ////////////////////////////////////////// For going to profile page//////////////////////////////
+
         myProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +113,8 @@ public class result_activity extends AppCompatActivity {
             }
         });
 
-        // databases
+        ///////////////////////////// databases instances///////////////////////////////////////////
+
         myHelper = new MyHelper(this);
         sqLiteDatabase = myHelper.getWritableDatabase();
 
@@ -130,7 +133,7 @@ public class result_activity extends AppCompatActivity {
             }
         });
 
-        //Camera Permission
+        /////////////////////////////////Camera Permission
 
         cameraPermission = new String[]{Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -152,13 +155,6 @@ public class result_activity extends AppCompatActivity {
             }
         });
 
-        mPreviewIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,11 +162,7 @@ public class result_activity extends AppCompatActivity {
                     requestStoragePermission();
                 } else {
                     pickGallery();
-                    //Uri imgUri = data.getData();
-                    //Intent intent = new Intent(selectoption.this, result.class);
-                    //intent.putExtra("cropedimage", imgUri.toString());
-                    //startActivity(intent);
-                    //finish();
+
                 }
             }
         });
@@ -287,74 +279,7 @@ public class result_activity extends AppCompatActivity {
         }
     }
 
-    //handle image results
-
-//    private String abc(String line, int ind){
-//        String value = "";
-//        while(true){
-//            Log.d("Found", String.valueOf(line.charAt(ind)));
-//            if(line.charAt(ind) == '\n'){
-//                break;
-//            }
-//            value += line.charAt(ind);
-//            ind++;
-//        }
-//        return value;
-//    }
-//
-//    private int findkeyWord(String str){
-//        String line = str.trim().toLowerCase();
-//        Log.d("Found", line);
-//        String[] keywords = {"time", "date", "amount", "qty", "quantity", "description", "desc"};
-////        char[] cs = line.getChars();
-//
-//        for(String word: keywords){
-//            if (line.contains(word)){
-//                Log.d("Found", word);
-//                int ind = line.indexOf(word);
-//                Log.d("Found", "line.charAt(ind+1): " + line.charAt(ind + word.length()+2));
-//                Log.d("Found", "word.length(): " + ind + " "  + (word.length()+2));
-//                if( line.charAt(ind + word.length()+2) == '1') {
-//                    String value = abc(line, ind + word.length()+2);
-//                    Log.d("Found", "value: " + value);
-//                    Log.d("Found", word +" = "+ value);
-//                }
-//                return ind;
-//            }
-//        }
-//        return -1;
-//    }
-//
-//    private void temp(){
-//        String temp = "Desc\tQty\tPrice\nsample\t12\t1200";
-//        String random = "CHASE\n" +
-//                "S' MPTON\n" +
-//                "60 MAIN ST\n" +
-//                "ATM NUMBER\n" +
-//                "NY3181\n" +
-//                "DATE:\n" +
-//                "08/07/11\n" +
-//                "CARD NUMBER: ******* ****1453\n" +
-//                "TIME:\n" +
-//                "16:23\n" +
-//                "SEQUENCE NUMBER: 2334\n" +
-//                "WITHDRAWAL FROM\n" +
-//                "ACCOUNT ENDING WITH: XXXXXXXXXXx6817\n" +
-//                "CHECKING\n" +
-//                "AMOUNT\n" +
-//                "AVAILAßLE BALANCE:\n" +
-//                "PRESENT BALANCE:\n" +
-//                "$500.000\n" +
-//                "$329,174.91\n" +
-//                "$329,174.91";
-//        Log.d("temp,", "/n" + random);
-//
-//        for(int i=0; i<temp.length(); i++) {
-////            Log.d("temp,", "/n" + temp.charAt(i));
-//        }
-//        int ind = findkeyWord(random);
-//
-//    }
+//////////////////////// DATE REGEX METHOD ///////////////////////////////////////////
 
     public class Regex {
         @SuppressLint("SetTextI18n")
@@ -373,6 +298,24 @@ public class result_activity extends AppCompatActivity {
         }
     }
 
+    public class priceMatch {
+        @SuppressLint("SetTextI18n")
+        public void pName(String str, String ptrn){
+            String inputCharSeq = str;
+            Pattern pattern = Pattern.compile(ptrn, Pattern.MULTILINE);
+            Matcher matcher = pattern.matcher(inputCharSeq);
+            if(matcher.find())
+            {
+                amountName.setText(matcher.group());
+            }
+            else {
+                amountName.setText("Date not found");
+            }
+//                System.out.println(getOneLineSubString(str, matcher.end()+1));
+        }
+    }
+
+////////////// Main Method Jab Receipt ki pic ajayegi////////////////////////////////
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -436,6 +379,7 @@ public class result_activity extends AppCompatActivity {
                     String dateText = mResultET.getText().toString();
 
                     Regex r = new Regex();
+                    priceMatch p = new priceMatch();
 //
 //                    String dateText = "Tue, 16-Jul-2019";
 
@@ -453,6 +397,8 @@ public class result_activity extends AppCompatActivity {
                     Matcher magnetNp = Pattern.compile(magnetName).matcher(firstWord);
                     Matcher aljadeedNp = Pattern.compile(aljadeedName).matcher(firstWord);
 //                    Matcher dateNP = Pattern.compile(ptrn).matcher(dateText);
+
+                    ////////////////////////////// CONDITIONS FOR PATTERN MATCHING//////////////////
 
                     if (chaseNp.find()) {
                         for (int i = 0; i < arr.length; i++) {
@@ -526,7 +472,8 @@ public class result_activity extends AppCompatActivity {
                     else if(sparNp.find()){
                         for (int i = 0; i < arr.length; i++) {
                             if (arr[i].equals("Net Value")) {
-                                amountName.setText(arr[i+1]);
+                                String line = arr[i+1];
+                                p.pName(line,number);
                                 break;
                             }
                         }
@@ -566,19 +513,7 @@ public class result_activity extends AppCompatActivity {
                     intent.putExtra(EXTRA_TEXT, resultR);
                     intent.putExtra(EXTRA_DATE,resultD);
                     intent.putExtra(EXTRA_AMOUNT,resultA);
-//                    intent.putExtra(EXTRA_DAY,dateDay);
-//                    intent.putExtra(EXTRA_MONTH,dateMonth);
-//                    intent.putExtra(EXTRA_YEAR,dateYear);
                     startActivity(intent);
-
-//                    String arr[] = sb.toString().split("\n");
-//                    String firstWord = arr[0];
-//                    storeName.setText(firstWord);
-//                    Regex r = new Regex();
-//
-//                    String arr[] = sb.toString().split("\n");
-//                    String firstWord = arr[0];
-//                    r.iName(firstWord,imtiazName);
 
                 }
 
