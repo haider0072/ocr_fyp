@@ -52,9 +52,9 @@ public class signup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String emailRegex = "^[^@\\s]+@[^@\\s\\.]+\\.[^@\\.\\s]+$";
-                String email = username.getText().toString();
+                String email = username.getText().toString().trim();
                 String pwd = password.getText().toString();
-                final String u_name = name.getText().toString();
+                final String u_name = name.getText().toString().trim();
 
                 Matcher matcher= Pattern.compile(emailRegex).matcher(email);
 
@@ -71,6 +71,14 @@ public class signup extends AppCompatActivity {
                 else if(u_name.isEmpty()){
                     name.setError("Please Enter name");
                     name.requestFocus();
+                }
+                else if (!isValidPassword(password.getText().toString().trim())){
+                    password.setError("At least one numeric character");
+
+                }
+                else if (!matcher.matches()){
+                    username.setError("Invalid Email");
+
                 }
                 else if(email.isEmpty() && pwd.isEmpty() && u_name.isEmpty()){
                     Toast.makeText(getApplicationContext(),"Fields are empty",Toast.LENGTH_LONG).show();
@@ -89,7 +97,7 @@ public class signup extends AppCompatActivity {
                                         startActivity(new Intent(signup.this,login.class));
                                         Toast.makeText(getBaseContext(),"Successfully Registered",Toast.LENGTH_LONG).show();
                                     } else {
-                                        Toast.makeText(getBaseContext(),"Something went wrong",Toast.LENGTH_LONG).show();
+                                        showMessage("Invalid Data Inserted");
                                     }
 
                                 }
@@ -101,6 +109,25 @@ public class signup extends AppCompatActivity {
 
 
         });
+
+    }
+    void showMessage(String msg)
+    {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+    }
+
+    public boolean isValidPassword(final String password) {
+
+        Pattern pattern;
+        Matcher matcher1;
+
+        final String PASSWORD_PATTERN = "^(?=.*\\d).{4,}$";
+
+        pattern = Pattern.compile(PASSWORD_PATTERN);
+        matcher1 = pattern.matcher(password);
+
+        return matcher1.matches();
+
     }
 
 }

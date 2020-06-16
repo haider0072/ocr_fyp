@@ -403,7 +403,8 @@ public class result_activity extends AppCompatActivity {
                     if (chaseNp.find()) {
                         for (int i = 0; i < arr.length; i++) {
                             if (arr[i].equals("Net Value:")||arr[i].equals("Net Value")) {
-                                amountName.setText(arr[i + 4]);
+                                String line = arr[i+4];
+                                p.pName(line,number);
                                 break;
                             }
                         }
@@ -414,7 +415,8 @@ public class result_activity extends AppCompatActivity {
                         for (int i = 0; i < arr.length; i++) {
                             if (arr[i].equals("Invoice Value")||arr[i].equals("InvoTce Value")||arr[i].equals("nvoice Value")
                                     ||arr[i].equals("InvOTCe Vallue")) {
-                                amountName.setText(arr[i + 1]);
+                                String line = arr[i+1];
+                                p.pName(line,number);
                                 break;
                             }
                             }
@@ -424,7 +426,8 @@ public class result_activity extends AppCompatActivity {
                     else if(naheedNp.find()) {
                         for (int i = 0; i < arr.length; i++) {
                             if (arr[i].equals("TENDER AMOUNT")) {
-                                amountName.setText(arr[i + 1]);
+                                String line = arr[i+1];
+                                p.pName(line,number);
                                 break;
                             }
                         }
@@ -434,7 +437,8 @@ public class result_activity extends AppCompatActivity {
                     else if(needzNp.find()){
                         for(int i=0;i<arr.length;i++){
                             if (arr[i].equals("Net Amount")){
-                                amountName.setText(arr[i+4]);
+                                String line = arr[i+4];
+                                p.pName(line,number);
                                 break;
                             }
                         }
@@ -448,7 +452,8 @@ public class result_activity extends AppCompatActivity {
                     else if(gulshanNp.find()){
                         for(int i=0;i<arr.length;i++){
                             if (arr[i].equals("Net Amount")){
-                                amountName.setText(arr[i+4]);
+                                String line = arr[i+4];
+                                p.pName(line,number);
                                 break;
                             }
                         }
@@ -458,7 +463,8 @@ public class result_activity extends AppCompatActivity {
                     else if(blessNp.find()){
                         for(int i=0;i<arr.length;i++){
                             if (arr[i].equals("CASH")||arr[i].equals("Grand Total")){
-                                amountName.setText(arr[i+1]);
+                                String line = arr[i+1];
+                                p.pName(line,number);
                                 break;
                             }
                         }
@@ -487,7 +493,8 @@ public class result_activity extends AppCompatActivity {
                     else if(aljadeedNp.find()){
                         for (int i = 0; i < arr.length; i++) {
                             if (arr[i].equals("Netvalue:")) {
-                                amountName.setText(arr[i - 4]);
+                                String line = arr[i-4];
+                                p.pName(line,number);
                                 break;
                             }
                         }

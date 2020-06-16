@@ -72,7 +72,8 @@ public class profile extends AppCompatActivity {
         new SharedPref(this).userLogOut();
         Intent loginActivity = new Intent(getApplicationContext(), login.class);
         startActivity(loginActivity);
-        finish();
+        finishAffinity();
+
     }
     void showMessage(String msg){
         Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
