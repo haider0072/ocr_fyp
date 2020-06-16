@@ -111,7 +111,7 @@ public class analyzed_data extends AppCompatActivity {
                 if (!(priceName.isEmpty()) && priceName.matches("\\d*\\.?\\d*$")
                         && storeDateDay!=null&&storeDateMonth!=null&&storeDateYear!=null && storeName!=null) {
                     myHelper.insertData(storeName,storeDateDay,storeDateMonth,storeDateYear,priceName);
-                    showMessage("Information inserted success!"+ priceName);
+                    showMessage("Information inserted success!");
                     Intent myIntent = new Intent(v.getContext(),result_activity.class);
                     startActivity(myIntent);
                     finishAffinity();
