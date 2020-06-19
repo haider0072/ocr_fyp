@@ -423,7 +423,8 @@ public class result_activity extends AppCompatActivity {
                         for (int i = 0; i < arr.length; i++) {
                             if (arr[i].equals("Net Value:")||arr[i].equals("Net Value")) {
                                 String line = arr[i+4];
-                                p.pName(line,number);
+                                String newLine = line.replace(",","");
+                                p.pName(newLine,number);
                                 break;
                             }
                         }
@@ -435,7 +436,8 @@ public class result_activity extends AppCompatActivity {
                             if (arr[i].equals("Invoice Value")||arr[i].equals("InvoTce Value")||arr[i].equals("nvoice Value")
                                     ||arr[i].equals("InvOTCe Vallue")) {
                                 String line = arr[i+1];
-                                p.pName(line,number);
+                                String newLine = line.replace(",","");
+                                p.pName(newLine,number);
                                 break;
                             }
                             }
@@ -444,9 +446,11 @@ public class result_activity extends AppCompatActivity {
                     }
                     else if(naheedNp.find()) {
                         for (int i = 0; i < arr.length; i++) {
-                            if (arr[i].equals("TENDER AMOUNT")) {
-                                String line = arr[i+1];
-                                p.pName(line,number);
+                            if (arr[i].equals("NET VALUE")) {
+                                String line = arr[i+5];
+//                                amountName.setText(line);
+                                String newLine = line.replace(",","");
+                                p.pName(newLine,number);
                                 break;
                             }
                         }
@@ -472,7 +476,8 @@ public class result_activity extends AppCompatActivity {
                         for(int i=0;i<arr.length;i++){
                             if (arr[i].equals("Net Amount")){
                                 String line = arr[i+4];
-                                p.pName(line,number);
+                                String newLine = line.replace(",","");
+                                p.pName(newLine,number);
                                 break;
                             }
                         }
@@ -483,7 +488,8 @@ public class result_activity extends AppCompatActivity {
                         for(int i=0;i<arr.length;i++){
                             if (arr[i].equals("CASH")||arr[i].equals("Grand Total")){
                                 String line = arr[i+1];
-                                p.pName(line,number);
+                                String newLine = line.replace(",","");
+                                p.pName(newLine,number);
                                 break;
                             }
                         }
@@ -498,7 +504,8 @@ public class result_activity extends AppCompatActivity {
                         for (int i = 0; i < arr.length; i++) {
                             if (arr[i].equals("Net Value")) {
                                 String line = arr[i+1];
-                                p.pName(line,number);
+                                String newLine = line.replace(",","");
+                                p.pName(newLine,number);
                                 break;
                             }
                         }
@@ -513,7 +520,8 @@ public class result_activity extends AppCompatActivity {
                         for (int i = 0; i < arr.length; i++) {
                             if (arr[i].equals("Netvalue:")) {
                                 String line = arr[i-4];
-                                p.pName(line,number);
+                                String newLine = line.replace(",","");
+                                p.pName(newLine,number);
                                 break;
                             }
                         }
