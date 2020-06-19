@@ -11,15 +11,14 @@
         android:id="@+id/linearLayout"
         android:layout_width="118dp"
         android:layout_height="118dp"
-        android:layout_marginTop="51dp"
         android:background="@drawable/ic_splashicon"
+        android:contentDescription="TODO"
         android:gravity="center_horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="TODO"
-        android:orientation="vertical">
+        app:layout_constraintTop_toTopOf="parent">
 
 
     </LinearLayout>

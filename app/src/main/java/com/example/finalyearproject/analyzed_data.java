@@ -24,13 +24,16 @@ import java.util.regex.Pattern;
 
 
 public class analyzed_data extends AppCompatActivity {
-
+    //Declarations
     TextView sName,sDate,sPrice,sDay,sMonth,sYear;
     Button confirm,cancel;
     String day,month,year;
 
+    //sqlite declaration
+
     MyHelper myHelper;
     SQLiteDatabase sqLiteDatabase;
+
     private String number = " \\d*\\.?\\d*$";
 
     @Override
@@ -46,26 +49,30 @@ public class analyzed_data extends AppCompatActivity {
         confirm = findViewById(R.id.confirm);
         cancel = findViewById(R.id.cancel);
 
-        myHelper = new MyHelper(this);
-        sqLiteDatabase = myHelper.getWritableDatabase();
+        myHelper = new MyHelper(this); //myHelper object
+        sqLiteDatabase = myHelper.getWritableDatabase();  //database open kernay kai liye ab use ker sktay
 
 
         Intent intent = getIntent();
-        String text = intent.getStringExtra(result_activity.EXTRA_TEXT);
+        String text = intent.getStringExtra(result_activity.EXTRA_TEXT); // yaha result activity sai extracted data utha rhay
         String textD = intent.getStringExtra(result_activity.EXTRA_DATE);
         String textA = intent.getStringExtra(result_activity.EXTRA_AMOUNT);
 
+        // text view mai data set ker rhay
         sDate.setText(textD);
         sName.setText(text);
         sPrice.setText(textA);
 
+        // agay database mai store kernay kai liye text view sai data utha rhay
         final String storeName = sName.getText().toString();
         final String dateName = sDate.getText().toString();
         final String priceName = sPrice.getText().toString();
 
+        // yahan sai date format mai kernay ka kaam horeha
         Date newDate;
         String  bless = "Bless";
 
+        // kyon keh bless ka format agay peechay tha to usko sahi kernay kai liye format change kiya takkay sab aik format mai hon
         if (bless.equals(storeName)) {
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -93,21 +100,24 @@ public class analyzed_data extends AppCompatActivity {
 
         }
 
+        // date ko teen part mai jo divide kiya usko string mai save kerdia agay database mai bhejnay kai liye
         final String storeDateDay = day;
         final String storeDateMonth = month;
         final String storeDateYear = year;
 
+        // text view mai set kernay kai liye
         sDay.setText(day);
         sMonth.setText(month);
         sYear.setText(year);
 
-        final Matcher priceMatch = Pattern.compile(number).matcher(priceName);
+//        final Matcher priceMatch = Pattern.compile(number).matcher(priceName);
 
 
+        // yeh confirm kai button ka onClick Listener hai
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // error handling ka kaam bhi horeha is if condition mai//
                 if (!(priceName.isEmpty()) && priceName.matches("\\d*\\.?\\d*$")
                         && storeDateDay!=null&&storeDateMonth!=null&&storeDateYear!=null && storeName!=null) {
                     myHelper.insertData(storeName,storeDateDay,storeDateMonth,storeDateYear,priceName);

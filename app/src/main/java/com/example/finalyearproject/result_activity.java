@@ -39,12 +39,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class result_activity extends AppCompatActivity {
+    //initialization for saving data of intent in variable
     public static final String EXTRA_TEXT = "com.example.finalyearproject.EXTRA_TEXT";
     public static final String EXTRA_DATE = "com.example.finalyearproject.EXTRA_DATE";
     public static final String EXTRA_AMOUNT = "com.example.finalyearproject.EXTRA_AMOUNT";
-//    public static final String EXTRA_DAY = "com.example.finalyearproject.EXTRA_DAY";
-//    public static final String EXTRA_MONTH = "com.example.finalyearproject.EXTRA_MONTH";
-//    public static final String EXTRA_YEAR = "com.example.finalyearproject.EXTRA_YEAR";
+
+    //Declarations
 
     TextView mResultET;
     ImageView mPreviewIv;
@@ -53,11 +53,13 @@ public class result_activity extends AppCompatActivity {
     TextView amountName;
     Button btnDisplay;
     Button myProfile;
+    Button camera, gallery,chart;
 
-//    String day,month,year;
 
     MyHelper myHelper;
     SQLiteDatabase sqLiteDatabase;
+
+    ///// PERMISSION DECLARATIONS/////////////////////
 
     private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 400;
@@ -68,9 +70,13 @@ public class result_activity extends AppCompatActivity {
     String cameraPermission[];
     String storagePermission[];
 
+    // uri declaration for saving image data in uri and then getting it
+
     Uri image_uri;
 
-    Button camera, gallery,chart;
+
+
+    ///  REGEX FOR STORE NAME, DATE AND PRICE //////////
 
     private String imtiazName = "(Imtiaz|imtiaz|mtiaz|tiaz|mtia|IMTIAZ)";
     private String chaseName = "(CHASE|HASE|ASE|Chase|chase|hase|ase)";
@@ -86,6 +92,7 @@ public class result_activity extends AppCompatActivity {
     private String ptrn = "(\\d{2}\\s-[a-zA-Z]{1,10}-\\d{4})|(\\d{2}-[a-zA-Z]{1,10}-\\d{4})|[a-zA-Z]{1,10}\\s\\d{2},\\s\\d{4}|\\d{2}\\s[a-zA-Z]{1,10}\\s\\d{4}|\\d{2}\\s[a-zA-Z]{1,10},\\s\\d{4}|\\d{2}[- /.]\\d{2}[- /.]\\d{4}";
     private String number = "\\d*\\.?\\d*$";
 
+    //////////// On Create Method////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,7 +140,7 @@ public class result_activity extends AppCompatActivity {
             }
         });
 
-        /////////////////////////////////Camera Permission
+        /////////////////////////////////Camera Permission/////////////////////////
 
         cameraPermission = new String[]{Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -168,6 +175,8 @@ public class result_activity extends AppCompatActivity {
         });
     }
 
+    /////////// FOR TESTING ONLY ////////////
+
     private void displayAllRecords(){
         String dbString = "", dataString = "";
 
@@ -189,6 +198,8 @@ public class result_activity extends AppCompatActivity {
         Toast.makeText(this,dataString,Toast.LENGTH_LONG).show();
     }
 
+    ////////// METHOD FOR WHEN GALLERY AND CAMERA ARE SELECTED //////////////
+
     private void pickGallery()
     {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -209,6 +220,8 @@ public class result_activity extends AppCompatActivity {
         startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
         Toast.makeText(this, "here", Toast.LENGTH_LONG).show();
     }
+
+    ////////////// PERMISSIONS FOR STORAGE AND ACCESSING ////////////
 
     private void requestStoragePermission()
     {
@@ -237,7 +250,7 @@ public class result_activity extends AppCompatActivity {
         return result && result1;
     }
 
-    // handle permission results
+    // handle permission results ////////////
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode)
@@ -298,6 +311,8 @@ public class result_activity extends AppCompatActivity {
         }
     }
 
+    //////////////////////// PRICE REGEX METHOD ///////////////////////////////////////////
+
     public class priceMatch {
         @SuppressLint("SetTextI18n")
         public void pName(String str, String ptrn){
@@ -315,7 +330,7 @@ public class result_activity extends AppCompatActivity {
         }
     }
 
-////////////// Main Method Jab Receipt ki pic ajayegi////////////////////////////////
+////////////// Main Method Jab Receipt ki pic ajayegi ////////////////////////////////
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -340,32 +355,36 @@ public class result_activity extends AppCompatActivity {
         // get cropped image
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            CropImage.ActivityResult result = CropImage.getActivityResult(data); // CROP HONAY KAI BAAD JO IMAGE AYE WOH "result" KAI object MAI SAVE HOJAYE
             if (resultCode == RESULT_OK) {
-                Uri resultUri = result.getUri();
 
-                mPreviewIv.setImageURI(resultUri);
+                Uri resultUri = result.getUri(); //////// URI KAI OBJECT "resultUri" MAI "result" KAI object KA DATA GET KER RAHY///
+                mPreviewIv.setImageURI(resultUri); /// "mPreview" image view hai usmay resultUri jismay image hai woh set ker rhay//
 
                 //get drawable bitmap for text Recognition
+                // ab jo bhi image hoti usko bitmap format mai kerna hota to wahi ker rhay yahan
 
-                BitmapDrawable bitmapDrawable = (BitmapDrawable) mPreviewIv.getDrawable();
-                Bitmap bitmap = (Bitmap) bitmapDrawable.getBitmap();
 
-                TextRecognizer recognizer = new TextRecognizer.Builder(getApplicationContext()).build();
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) mPreviewIv.getDrawable(); //yahan "bitmapDrawble" kai name sai object bnadia jismay image view sai image get ker rhay jo keh drawable form mai hia//
+                Bitmap bitmap = (Bitmap) bitmapDrawable.getBitmap(); // drawable form ko bitmap mai ker rhay //
+
+                TextRecognizer recognizer = new TextRecognizer.Builder(getApplicationContext()).build(); // textRecognizer ka object bn rha
 
                 if (!recognizer.isOperational()) {
                     Toast.makeText(this, "ERROR!!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Frame frame = new Frame.Builder().setBitmap(bitmap).build();
-                    SparseArray<TextBlock> items = recognizer.detect(frame);
+                }
+                // ager recognize kerlia to phir yeh kerna hai
+                else {
+                    Frame frame = new Frame.Builder().setBitmap(bitmap).build();  // bitmap ko frame object mai return ker rha//
+                    SparseArray<TextBlock> items = recognizer.detect(frame); //Text block ka sparse array hai object name "item" usmay jo frame sai detect ker rha array mai daal rha//
 
-                    StringBuilder sb = new StringBuilder();
-//                    temp();
+                    StringBuilder sb = new StringBuilder(); // ab jo bhi text areha hai woh string builder kai object mai save horeha//
+                    // yeh string ki tarah hi hotay but zayada undefined length of text ho to yeh use hota, efficient hota//
+
                     // get text from sb until their is no text
                     for (int i = 0; i < items.size(); i++) {
                         TextBlock myItem = items.valueAt(i);
                         Log.d("Debugg",myItem.getValue());
-//                        System.out.println(myItem); //isko run kr k dikhao
 
                         sb.append(myItem.getValue());
                         sb.append("\n");
